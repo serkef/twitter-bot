@@ -19,7 +19,7 @@ country_converter = "^0.6.7"
 emoji-country-flag = "^1.2.1"
 
 [tool.poetry.scripts]
-breaking-bot = "bot:main"
+breaking-bot = "bot.breaking:main"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.1"
