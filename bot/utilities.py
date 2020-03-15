@@ -1,13 +1,24 @@
-""" custom utilities """
-
+""" Utilities module containing helper functions """
 import logging
-from logging.handlers import TimedRotatingFileHandler
 
-from twitter_bot.config import APP_LOGS
+from bot.config import DB_SESSION_MAKER
+
+
+def create_table(query):
+    """ Gets a new session and executes provided DDL """
+
+    cursor = DB_SESSION_MAKER()
+    cursor.execute(query)
+    cursor.commit()
+    cursor.close()
 
 
 def set_logging(loglevel: [int, str] = "INFO"):
     """ Sets logging handlers """
+
+    logging.getLogger("googleapiclient.discovery_cache").setLevel(logging.ERROR)
+    logging.getLogger("googleapiclient.discovery").setLevel(logging.ERROR)
+    logging.getLogger("google_auth_httplib2").setLevel(logging.ERROR)
 
     fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     formatter = logging.Formatter(fmt)
@@ -16,23 +27,6 @@ def set_logging(loglevel: [int, str] = "INFO"):
     stream_handler.setFormatter(formatter)
     stream_handler.setLevel(loglevel)
 
-    APP_LOGS.mkdir(parents=True, exist_ok=True)
-    log_path = f"{APP_LOGS / 'twitter-monitor.log'}"
-    file_handler = TimedRotatingFileHandler(
-        filename=log_path, when="midnight", encoding="utf-8"
-    )
-    file_handler.setFormatter(formatter)
-    file_handler.setLevel(loglevel)
-
-    errlog_path = f"{APP_LOGS / 'twitter-monitor.err'}"
-    err_file_handler = TimedRotatingFileHandler(
-        filename=errlog_path, when="midnight", encoding="utf-8"
-    )
-    err_file_handler.setFormatter(formatter)
-    err_file_handler.setLevel(logging.WARNING)
-
     logger = logging.getLogger()
     logger.addHandler(stream_handler)
-    logger.addHandler(file_handler)
-    logger.addHandler(err_file_handler)
     logger.setLevel(loglevel)

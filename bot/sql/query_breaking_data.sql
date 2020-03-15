@@ -1,30 +1,49 @@
 SELECT
-    record_changelog.rec_ts,
-    record_changelog.rec_territory,
-    record_changelog.rec_category,
-    record_changelog.rec_value
+    latest.id,
+    latest.rec_ts,
+    latest.rec_territory,
+    latest.rec_category,
+    latest.nn,
+    latest.rec_value                      AS total,
+    latest.rec_value - previous.rec_value AS value,
+    previous.rec_value                    AS previous_value,
+    post_breaking_data.id                 AS post_id
 
 FROM
-    record_changelog
-    LEFT JOIN (
+    (
         SELECT
-            rec_category,
-            rec_territory,
-            max(rec_value) AS previous_value
+            record_changelog.id,
+            record_changelog.rec_ts,
+            record_changelog.rec_territory,
+            record_changelog.rec_category,
+            ROW_NUMBER()
+            OVER (PARTITION BY record_changelog.rec_territory, record_changelog.rec_category ORDER BY record_changelog.rec_ts DESC) AS nn,
+            record_changelog.rec_value
         FROM
             record_changelog
-        GROUP BY
+    ) AS latest
+
+        LEFT JOIN(
+        SELECT
+            rec_territory,
             rec_category,
-            rec_territory
-    ) AS history_log
-      ON latest_daily_data.rec_territory = history_log.rec_territory
-      AND latest_daily_data.rec_category = history_log.rec_category
-      AND latest_daily_data.rec_value > history_log.rec_value
+            ROW_NUMBER() OVER (PARTITION BY rec_territory, rec_category ORDER BY rec_ts DESC) AS nn,
+            rec_value
+
+        FROM
+            record_changelog
+    ) AS previous
+                 ON latest.nn = 1
+                     AND previous.nn = 2
+                     AND latest.rec_territory = previous.rec_territory
+                     AND latest.rec_category = previous.rec_category
+
+        LEFT JOIN post_breaking_data AS post_breaking_data
+                  ON latest.id = post_breaking_data.changelog_id
 
 WHERE
-    rec_category IN ('case', 'death')
-    AND rec_territory = 'Trinidad and Tobago'
-      latest_daily_data.rec_value > 0
-  AND (latest_posts.rec_value IS NULL OR latest_posts.rec_value < latest_daily_data.rec_value)
-  AND (latest_posts.rec_value IS NULL OR latest_posts.ts > current_timestamp - interval '1 hour')
-  AND current_date = latest_daily_data.rec_dt
+      latest.rec_category IN ('case', 'death')
+  AND latest.nn = 1
+  AND post_breaking_data.id IS NULL
+  AND latest.rec_ts > current_timestamp - INTERVAL '1 hour'
+;
