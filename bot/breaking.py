@@ -7,7 +7,6 @@ import pandas as pd
 import requests
 import tweepy
 from country_converter import convert
-from utilities import set_logging
 
 from bot.config import (
     DB_GET_BREAKING_UPDATES,
@@ -27,6 +26,7 @@ from bot.config import (
     TWITTER_CONSUMER_KEY,
     TWITTER_CONSUMER_KEY_SECRET,
 )
+from bot.utilities import set_logging
 
 
 def slack_status(status):
