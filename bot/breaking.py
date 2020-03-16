@@ -139,7 +139,7 @@ def main():
         return
 
     logger.info("Persisting post info to DB")
-    db.execute(DB_INSERT_POST_DATA, latest.id.tolist())
+    db.execute(DB_INSERT_POST_DATA, [(x,) for x in latest.id])
 
     if len(latest) > MAX_POST_BATCH_SIZE:
         logger.warning("Too many changes. Won't post")
