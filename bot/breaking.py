@@ -66,7 +66,7 @@ def tweet_status(status):
 def get_hashtag_country(territory):
     """ Gets a hashtag for the country """
 
-    hashword = "".join(c for c in territory.capitalize() if c.isalpha())
+    hashword = "".join(c for c in territory.title() if c.isalpha())
     if hashword:
         return f"#{hashword}"
     return territory
