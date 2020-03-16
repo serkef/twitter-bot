@@ -88,26 +88,28 @@ def create_status(category, country, value, total):
     emoji = get_emoji_country(country)
 
     cat_word = {
-        "case": {"s": "case", "p": "cases"},
-        "death": {"s": "death", "p": "deaths"},
+        "case": {"s": "case", "p": "cases", "sign": "🔵"},
+        "death": {"s": "death", "p": "deaths", "sign": "🔴"},
     }
 
     catg_s = cat_word[category]["s"]
     catg_p = cat_word[category]["p"]
+    sign = cat_word[category]["sign"]
+
     if value == 1:
         msg = (
-            f"A new {catg_s} reported today in {emoji}{country}. "
+            f"{sign} A new {catg_s} reported in {emoji}{country}. "
             f"Raises total to {total:,d}."
         )
         if total == 1:
-            msg = f"First {catg_s} reported in {emoji}{country}."
+            msg = f"{sign} First {catg_s} reported in {emoji}{country}."
     else:
         msg = (
-            f"{value:,d} new {catg_p} reported today in {emoji}{country}. "
+            f"{sign} {value:,d} new {catg_p} reported in {emoji}{country}. "
             f"Raises total to {total:,d}."
         )
         if value == total:
-            msg = f"First {value:,d} {catg_s} reported in {emoji}{country}."
+            msg = f"{sign} First {value:,d} {catg_s} reported in {emoji}{country}."
 
     if len(msg) > 240:
         msg = msg.replace("#CoronavirusPandemic ", "")

@@ -39,7 +39,7 @@ DB_MIGRATE_DDL = [DB_CREATE_POSTS_TABLE]
 
 # Post settings
 STATUS_HEADER = "#BREAKING latest #COVIDー19 #CoronavirusPandemic update"
-STATUS_FOOTER = "Visit 📊covid2019.app for the latest updates"
+STATUS_FOOTER = "Visit 📊covid2019app.live for the latest updates"
 POST_TWITTER = os.getenv("POST_TWITTER", "false") == "true"
 POST_SLACK = os.getenv("POST_SLACK", "false") == "true"
 MAX_POST_BATCH_SIZE = int(os.getenv("MAX_POST_BATCH_SIZE", "10"))
