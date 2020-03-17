@@ -13,6 +13,7 @@ from bot.config import (
     DB_INSERT_POST_DATA,
     DB_MIGRATE_DDL,
     DB_SESSION_MAKER,
+    FRIENDLY_NAMES,
     LOGLEVEL,
     MAX_POST_BATCH_SIZE,
     POST_SLACK,
@@ -66,6 +67,7 @@ def tweet_status(status):
 def get_hashtag_country(territory):
     """ Gets a hashtag for the country """
 
+    territory = FRIENDLY_NAMES.get(territory, territory)
     hashword = "".join(c for c in territory.title() if c.isalpha())
     if hashword:
         return f"#{hashword}"

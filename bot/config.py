@@ -62,3 +62,11 @@ def build_db_session_maker():
 
 
 DB_SESSION_MAKER = build_db_session_maker()
+
+FRIENDLY_NAMES = {
+    "Korea, Republic of": "Korea",
+    "United States of America": "USA",
+    "Congo (the Democratic Republic of the)": "Congo",
+    "United Kingdom": "UK",
+    "United Arab Emirates": "UAE",
+}
