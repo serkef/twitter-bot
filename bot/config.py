@@ -38,7 +38,16 @@ DB_INSERT_POST_DATA = read_file(SQL / "insert_post_data.sql")
 DB_MIGRATE_DDL = [DB_CREATE_POSTS_TABLE]
 
 # Post settings
-STATUS_HEADER = "#BREAKING latest #COVIDー19 #CoronavirusPandemic update"
+STATUS_HASHTAGS = [
+    "#COVIDー19",
+    "#COVID19",
+    "#COVID2019",
+    "#Coronavirus",
+    "#CoronavirusPandemic",
+    "#CoronavirusOutbreak",
+    "#CoronavirusUpdates",
+]
+STATUS_HEADER = "#BREAKING latest update"
 STATUS_FOOTER = "Visit 📊covid2019app.live for the latest updates"
 POST_TWITTER = os.getenv("POST_TWITTER", "false") == "true"
 POST_SLACK = os.getenv("POST_SLACK", "false") == "true"

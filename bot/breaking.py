@@ -1,6 +1,7 @@
 """ Breaking module. Gets latest "breaking" updates and posts to twitter & slack """
 import json
 import logging
+from random import choice
 
 import flag
 import pandas as pd
@@ -20,6 +21,7 @@ from bot.config import (
     RESOURCES,
     SLACK_WEBHOOK_URL,
     STATUS_FOOTER,
+    STATUS_HASHTAGS,
     STATUS_HEADER,
     TWITTER_ACCESS_TOKEN,
     TWITTER_ACCESS_TOKEN_SECRET,
@@ -86,7 +88,7 @@ def create_status(category, country, value, total):
 
     country = get_hashtag_country(country)
     emoji = get_emoji_country(country)
-
+    hashtag = choice(STATUS_HASHTAGS)
     cat_word = {
         "case": {"s": "case", "p": "cases", "sign": "🔵"},
         "death": {"s": "death", "p": "deaths", "sign": "🔴"},
@@ -114,7 +116,7 @@ def create_status(category, country, value, total):
     if len(msg) > 240:
         msg = msg.replace("#CoronavirusPandemic ", "")
 
-    status = STATUS_HEADER + "\n\n" + msg + "\n\n" + STATUS_FOOTER
+    status = STATUS_HEADER + " " + hashtag + "\n\n" + msg + "\n\n" + STATUS_FOOTER
     return status
 
 
