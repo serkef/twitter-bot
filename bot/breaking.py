@@ -111,7 +111,7 @@ def create_status(category, country, value, total):
             f"Raises total to {total:,d}."
         )
         if value == total:
-            msg = f"{sign} First {value:,d} {catg_s} reported in {emoji}{country}."
+            msg = f"{sign} First {value:,d} {catg_p} reported in {emoji}{country}."
 
     if len(msg) > 240:
         msg = msg.replace("#CoronavirusPandemic ", "")
