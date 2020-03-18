@@ -65,8 +65,9 @@ DB_SESSION_MAKER = build_db_session_maker()
 
 FRIENDLY_NAMES = {
     "Korea, Republic of": "Korea",
-    "United States of America": "USA",
+    "Korea, republic of": "Korea",
+    "United States of America": "U S A",
     "Congo (the Democratic Republic of the)": "Congo",
-    "United Kingdom": "UK",
-    "United Arab Emirates": "UAE",
+    "United Kingdom": "U K",
+    "United Arab Emirates": "U A E",
 }
